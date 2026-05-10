@@ -1,18 +1,33 @@
 # 🔐 Environment variables
 .env
 .env.*
+*.env
 
-# 📦 Virtual environment
+# 📦 Virtual environments
 venv/
 env/
 ENV/
 .venv/
 
-# 🗄️ SQLite database
+# 🗄️ Database (SQLite)
 db.sqlite3
 db.sqlite3-journal
 
-# 📁 Media & static (optional)
+# 🧠 Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# 📁 Media & static files
 media/
 staticfiles/
 
+# 🧾 Logs
+*.log
+
+# ⚙️ IDE files
+.vscode/
+.idea/
+
+# 🚀 Vercel
+.vercel/
