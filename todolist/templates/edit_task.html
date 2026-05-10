@@ -1,0 +1,84 @@
+<!-- templates/edit_task.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="edit-container">
+
+    <h2>Edit Task</h2>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <!-- TASK TITLE -->
+
+        <label>Task Title</label>
+
+        <br><br>
+
+        <input
+            type="text"
+            name="title"
+            value="{{ task.title }}"
+            required
+        >
+
+        <br><br>
+
+        <!-- TASK DESCRIPTION -->
+
+        <label>Task Description</label>
+
+        <br><br>
+
+        <textarea
+            name="description"
+            rows="5"
+            required
+        >{{ task.description }}</textarea>
+
+        <br><br>
+
+        <!-- STATUS -->
+
+        <label>Status</label>
+
+        <br><br>
+
+        <select name="status">
+
+            <option value="Pending"
+            {% if task.status == 'Pending' %}
+            selected
+            {% endif %}
+            >
+                Pending
+            </option>
+
+            <option value="Completed"
+            {% if task.status == 'Completed' %}
+            selected
+            {% endif %}
+            >
+                Completed
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <!-- BUTTON -->
+
+        <button type="submit">
+
+            Update Task
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

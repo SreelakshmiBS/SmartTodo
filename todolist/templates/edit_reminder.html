@@ -1,0 +1,85 @@
+<!-- templates/edit_reminder.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="edit-container">
+
+    <h2>Edit Reminder</h2>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <!-- REMINDER MESSAGE -->
+
+        <label>Reminder Message</label>
+
+        <br><br>
+
+        <input
+            type="text"
+            name="message"
+            value="{{ reminder.message }}"
+            required
+        >
+
+        <br><br>
+
+        <!-- REMINDER TIME -->
+
+        <label>Reminder Time</label>
+
+        <br><br>
+
+        <input
+            type="datetime-local"
+            name="reminder_time"
+            value="{{ reminder.reminder_time|date:'Y-m-d\\TH:i' }}"
+            required
+        >
+
+        <br><br>
+
+        <!-- STATUS -->
+
+        <label>Status</label>
+
+        <br><br>
+
+        <select name="status">
+
+            <option value="Pending"
+            {% if reminder.status == 'Pending' %}
+            selected
+            {% endif %}
+            >
+                Pending
+            </option>
+
+            <option value="Completed"
+            {% if reminder.status == 'Completed' %}
+            selected
+            {% endif %}
+            >
+                Completed
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <!-- BUTTON -->
+
+        <button type="submit">
+
+            Update Reminder
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

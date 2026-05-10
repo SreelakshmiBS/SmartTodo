@@ -1,0 +1,35 @@
+<!-- templates/add_reminder.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>
+    Add Reminder for :
+    {{ task.title }}
+</h2>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <input
+        type="datetime-local"
+        name="reminder_time"
+        required
+    >
+
+    <input
+        type="text"
+        name="message"
+        placeholder="Reminder Message"
+        required
+    >
+
+    <button type="submit">
+        Save Reminder
+    </button>
+
+</form>
+
+{% endblock %}

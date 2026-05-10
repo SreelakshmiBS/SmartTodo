@@ -1,0 +1,33 @@
+<!-- templates/view_task.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>All Tasks</h1>
+
+<div class="task-list">
+
+    {% for task in tasks %}
+
+    <div class="card">
+
+        <h2>{{ task.title }}</h2>
+
+        <p>{{ task.description }}</p>
+
+        <a href="{% url 'add_reminder' task.id %}">
+            Add Reminder
+        </a>
+        
+        <a href="{% url 'mark_completed' task.id %}">
+            Mark as Completed
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

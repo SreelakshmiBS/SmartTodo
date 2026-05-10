@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>SmartTodo</title>
+
+    {% load static %}
+
+    <!-- CSS FILE -->
+
+    <link rel="stylesheet"
+    href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    {% include 'partials/navbar.html' %}
+
+    <!-- ================= MAIN CONTAINER ================= -->
+
+    <main class="container">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+</body>
+
+</html>

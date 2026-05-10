@@ -1,0 +1,23 @@
+# 🔐 Environment variables
+.env
+.env.*
+
+# 🐍 Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 📦 Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# 🗄️ SQLite database
+db.sqlite3
+db.sqlite3-journal
+
+# 📁 Media & static (optional)
+media/
+staticfiles/
+

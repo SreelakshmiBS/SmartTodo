@@ -1,0 +1,312 @@
+<!-- templates/index.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="main-container">
+
+    <!-- ================= TASK SECTION ================= -->
+
+    <div class="task-section">
+
+        <h2>Today's Tasks</h2>
+
+        <!-- ADD TASK FORM -->
+
+        <form method="POST" action="{% url 'add_task' %}">
+
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="title"
+                placeholder="Task Title"
+                required
+            >
+
+            <br><br>
+
+            <textarea
+                name="description"
+                placeholder="Task Description"
+                required
+            ></textarea>
+
+            <br><br>
+
+            <button type="submit">
+
+                Add Task
+
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="{% url 'view_tasks' %}">
+
+            View All Tasks
+
+        </a>
+
+        <br><br>
+
+        <!-- ================= TASK TABLE ================= -->
+
+        <table border="1" cellpadding="10" cellspacing="0" width="100%">
+
+            <tr>
+
+                <th>Title</th>
+
+                <th>Description</th>
+
+                <th>Status</th>
+
+                <th>Reminder</th>
+
+                <th>Mark Completed</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            {% for task in tasks %}
+
+            <tr>
+
+                <!-- TASK TITLE -->
+
+                <td>
+
+                    {{ task.title }}
+
+                </td>
+
+                <!-- TASK DESCRIPTION -->
+
+                <td>
+
+                    {{ task.description }}
+
+                </td>
+
+                <!-- TASK STATUS -->
+
+                <td>
+
+                    {% if task.status == 'Completed' %}
+
+                        <span style="color: green; font-weight: bold;">
+
+                            Completed
+
+                        </span>
+
+                    {% else %}
+
+                        <span style="color: orange; font-weight: bold;">
+
+                            Pending
+
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <!-- ADD REMINDER -->
+
+                <td>
+
+                    <a href="{% url 'add_reminder' task.id %}">
+
+                        Add Reminder
+
+                    </a>
+
+                </td>
+
+                <!-- MARK COMPLETED -->
+
+                <td>
+
+                    <a href="{% url 'mark_completed' task.id %}">
+
+                        {% if task.status == 'Pending' %}
+
+                            Mark as Completed
+
+                        {% else %}
+
+                            Mark as Pending
+
+                        {% endif %}
+
+                    </a>
+
+                </td>
+
+                <!-- ACTIONS -->
+
+                <td>
+
+                    <a href="{% url 'edit_task' task.id %}">
+
+                        Edit
+
+                    </a>
+
+                    |
+
+                    <a href="{% url 'delete_task' task.id %}">
+
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="5">
+
+                    No Tasks Available
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <br><br><br>
+
+    <!-- ================= REMINDER SECTION ================= -->
+
+    <div class="reminder-section">
+
+        <h2>Upcoming Reminders</h2>
+
+        <!-- REMINDER TABLE -->
+
+        <table border="1" cellpadding="10" cellspacing="0" width="100%">
+
+            <tr>
+
+                <th>Reminder Message</th>
+
+                <th>Reminder Time</th>
+
+                <th>Task</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            {% for reminder in reminders %}
+
+            <tr>
+
+                <!-- REMINDER MESSAGE -->
+
+                <td>
+
+                    {{ reminder.message }}
+
+                </td>
+
+                <!-- REMINDER TIME -->
+
+                <td>
+
+                    {{ reminder.reminder_time }}
+
+                </td>
+
+                <!-- RELATED TASK -->
+
+                <td>
+
+                    {{ reminder.task.title }}
+
+                </td>
+
+                <!-- REMINDER STATUS -->
+
+                <td>
+
+                    {% if reminder.status == 'Completed' %}
+
+                        <span style="color: green; font-weight: bold;">
+
+                            Completed
+
+                        </span>
+
+                    {% else %}
+
+                        <span style="color: orange; font-weight: bold;">
+
+                            Pending
+
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <!-- REMINDER ACTION -->
+
+                <td>
+
+                    {% if reminder.status == 'Pending' %}
+
+                    <a href="{% url 'mark_completed' reminder.id %}">
+
+                        Mark as Completed
+
+                    </a>
+
+                    {% else %}
+
+                        Reminder Completed
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="5">
+
+                    No Reminders Available
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
