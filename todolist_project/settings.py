@@ -19,10 +19,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 # ================= ALLOWED HOSTS =================
 
-ALLOWED_HOSTS = os.environ.get(
-    'ALLOWED_HOSTS',
-    '127.0.0.1,localhost'
-).split(',')
+ALLOWED_HOSTS =['smarttodolist-6ndb.onrender.com', 'localhost']
 
 
 # ================= INSTALLED APPS =================
