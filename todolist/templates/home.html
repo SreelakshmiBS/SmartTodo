@@ -342,7 +342,7 @@
                 </td>
                 <td>
                     {% if reminder.status == 'Pending' %}
-                        <a href="{% url 'mark_reminder_completed' reminder.id %}">Mark as Completed</a>
+                        <a href="{% url 'mark_completed' reminder.id %}">Mark as Completed</a>
                     {% else %}
                         Reminder Completed
                     {% endif %}
