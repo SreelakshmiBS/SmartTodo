@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # ================= SECRET KEY =================
-
+LOGIN_URL = 'login_view'
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     'django-insecure-dev-only-key'
