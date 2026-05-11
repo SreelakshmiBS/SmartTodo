@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,12 +15,12 @@ SECRET_KEY = os.environ.get(
 
 # ================= DEBUG =================
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = 'False'
 
 
 # ================= ALLOWED HOSTS =================
 
-ALLOWED_HOSTS =['smarttodolist-6ndb.onrender.com', 'localhost']
+ALLOWED_HOSTS =['smarttodolist-6ndb.onrender.com', 'localhost','127.0.0.1']
 
 
 # ================= INSTALLED APPS =================
@@ -97,37 +98,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'todolist_project.wsgi.application'
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # ================= DATABASE =================
 
 # DEV: SQLite
 # PROD: You can switch to PostgreSQL later
-
 if DEBUG:
-
+    # 🟢 DEVELOPMENT (SQLite)
     DATABASES = {
-
         'default': {
-
             'ENGINE': 'django.db.backends.sqlite3',
-
             'NAME': BASE_DIR / 'db.sqlite3',
-
         }
-
     }
 
 else:
-
+    # 🔵 PRODUCTION (PostgreSQL - Render)
+    
     DATABASES = {
-
-        'default': {
-
-            'ENGINE': 'django.db.backends.sqlite3',
-
-            'NAME': BASE_DIR / 'db.sqlite3',
-
-        }
-
+        'default': dj_database_url.parse(
+            os.environ.get('DATABASE_URL')
+        )
     }
 
 

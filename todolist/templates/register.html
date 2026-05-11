@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ToDo AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        /* registration card container */
+        .register-container {
+            max-width: 480px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15);
+            padding: 40px 36px 44px;
+            border: 1px solid #615320;
+            transition: transform 0.2s ease;
+        }
+
+        /* header area with logo */
+        .register-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(#f5c518);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .register-header h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #000000;
+            margin-top: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .register-header p {
+            color: #666666;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* form styling */
+        form {
+            margin-top: 8px;
+        }
+
+        /* style each form row */
+        form p {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* labels */
+        form label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: #000000;
+            letter-spacing: -0.2px;
+        }
+
+        /* input fields, select, textarea */
+        form input,
+        form select,
+        form textarea {
+            padding: 12px 16px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 28px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            outline: none;
+            color: #000000;
+        }
+
+        form input:focus,
+        form select:focus,
+        form textarea:focus {
+            border-color: #f5c518;
+            box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.2);
+            background-color: #ffffff;
+        }
+
+        /* help text & error messages */
+        .helptext {
+            font-size: 0.7rem;
+            color: #888888;
+            margin-top: 5px;
+            margin-left: 12px;
+        }
+
+        .errorlist {
+            list-style: none;
+            background: #fcebe8;
+            color: #c44536;
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 40px;
+            margin-top: 5px;
+            margin-bottom: 0;
+        }
+
+        .errorlist li {
+            margin: 0;
+        }
+
+        /* register button */
+        .btn-register {
+            width: 100%;
+            background-color: #f5c518;
+            color: #000000;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 13px 20px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 12px;
+            margin-bottom: 20px;
+            font-family: inherit;
+            box-shadow: 0 4px 10px rgba(245, 197, 24, 0.2);
+        }
+
+        .btn-register:hover {
+            background-color: #e6b800;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(245, 197, 24, 0.25);
+        }
+
+        /* additional links below form */
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .auth-links a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0 8px;
+            transition: color 0.2s;
+        }
+
+        .auth-links a:hover {
+            color: #f5c518;
+            text-decoration: underline;
+        }
+
+        /* small note with theme */
+        .theme-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #aaaaaa;
+            margin-top: 24px;
+        }
+
+        /* responsive adjustments */
+        @media (max-width: 520px) {
+            .register-container {
+                padding: 32px 24px 36px;
+            }
+            .register-header h2 {
+                font-size: 1.6rem;
+            }
+            form input,
+            form select,
+            form textarea {
+                padding: 10px 14px;
+            }
+        }
+
+        /* Custom styling for checkboxes and radio */
+        form input[type="checkbox"],
+        form input[type="radio"] {
+            width: auto;
+            margin-right: 8px;
+            accent-color: #f5c518;
+        }
+
+        /* django form rows that contain checkboxes need inline adjustment */
+        form p:has(input[type="checkbox"]) {
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        form p:has(input[type="checkbox"]) label {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <span class="logo">ToDo AI</span>
+            <h2>Register</h2>
+            <p>Join the AI-powered todo list community</p>
+        </div>
+
+        <!-- Django registration form -->
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-register">Register</button>
+        </form>
+
+        <div class="auth-links">
+            <a href="{% url 'login_view' %}">Already have an account? Sign in</a>
+            <span style="color:#e0e0e0">|</span>
+            <a href="{% url 'password_reset' %}">Forgot password?</a>
+        </div>
+    
+    </div>
+</body>
+</html>

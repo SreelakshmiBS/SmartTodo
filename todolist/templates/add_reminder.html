@@ -4,32 +4,172 @@
 
 {% block content %}
 
-<h2>
-    Add Reminder for :
-    {{ task.title }}
-</h2>
+<style>
+    .reminder-container {
+        max-width: 600px;
+        margin: 20px 0;
+        background: #ffffff;
+        border-radius: 32px;
+        border: 1px solid #f5c518;
+        padding: 35px 30px;
+        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+    }
 
-<form method="POST">
+    .reminder-container h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #000000;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
-    {% csrf_token %}
+    .reminder-container h2 span {
+        color: #f5c518;
+        background: #fef9e6;
+        padding: 4px 12px;
+        border-radius: 20px;
+        display: inline-block;
+    }
 
-    <input
-        type="datetime-local"
-        name="reminder_time"
-        required
-    >
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-    <input
-        type="text"
-        name="message"
-        placeholder="Reminder Message"
-        required
-    >
+    form input {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 28px;
+        font-size: 0.95rem;
+        font-family: inherit;
+        background-color: #ffffff;
+        transition: all 0.2s ease;
+        outline: none;
+        color: #000000;
+    }
 
-    <button type="submit">
-        Save Reminder
-    </button>
+    form input:focus {
+        border-color: #f5c518;
+        box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.2);
+    }
 
-</form>
+    form input::placeholder {
+        color: #bbbbbb;
+        font-weight: 400;
+    }
+
+    button {
+        background-color: #f5c518;
+        color: #000000;
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: inherit;
+        box-shadow: 0 2px 8px rgba(245, 197, 24, 0.2);
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #e6b800;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 197, 24, 0.3);
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .back-link a {
+        color: #000000;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .back-link a:hover {
+        color: #f5c518;
+    }
+
+    .task-info {
+        background: #fef9e6;
+        border-radius: 20px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        text-align: center;
+        border: 1px solid #f5c518;
+    }
+
+    .task-info p {
+        color: #555555;
+        font-size: 0.9rem;
+    }
+
+    .task-info strong {
+        color: #000000;
+        font-weight: 600;
+    }
+
+    @media (max-width: 650px) {
+        .reminder-container {
+            margin: 10px;
+            padding: 25px 20px;
+        }
+        .reminder-container h2 {
+            font-size: 1.3rem;
+        }
+    }
+</style>
+
+<div class="reminder-container">
+    <h2>
+        Add Reminder for: <span>{{ task.title }}</span>
+    </h2>
+
+    <div class="task-info">
+        <p><strong>Task:</strong> {{ task.title }}</p>
+        <p><strong>Current Status:</strong> 
+            {% if task.status == 'Completed' %}
+                <span style="color: #00a86b;">Completed</span>
+            {% else %}
+                <span style="color: #f5c518;">Pending</span>
+            {% endif %}
+        </p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input
+            type="datetime-local"
+            name="reminder_time"
+            required
+        >
+
+        <input
+            type="text"
+            name="message"
+            placeholder="Reminder Message"
+            required
+        >
+
+        <button type="submit">
+            Save Reminder
+        </button>
+    </form>
+
+    <div class="back-link">
+        <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+    </div>
+</div>
 
 {% endblock %}

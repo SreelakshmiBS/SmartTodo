@@ -1,0 +1,361 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+    /* Additional inline styles for horizontal layout */
+    .main-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .header h1 {
+        color: #000000;
+        font-size: 2rem;
+    }
+
+    .header p {
+        color: #555555;
+    }
+
+    /* Dashboard container - horizontal layout on left side */
+    .dashboard-wrapper {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+
+    .dashboard-container {
+        display: flex;
+        gap: 20px;
+        flex: 3;
+        flex-wrap: wrap;
+    }
+
+    .dashboard-card {
+        background: white;
+        border: 1px solid #f5c518;
+        border-radius: 20px;
+        padding: 20px 25px;
+        text-align: center;
+        min-width: 150px;
+        flex: 1;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(245, 197, 24, 0.15);
+    }
+
+    .dashboard-card h2 {
+        font-size: 0.9rem;
+        color: #555555;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+
+    .dashboard-card h1 {
+        font-size: 2.2rem;
+        color: #000000;
+        font-weight: 700;
+    }
+
+    /* Right side space (optional) */
+    .dashboard-side {
+        flex: 1;
+        background: #fef9e6;
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid #f5c518;
+    }
+
+    .dashboard-side h3 {
+        color: #000000;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-side p {
+        color: #555555;
+        font-size: 0.85rem;
+    }
+
+    /* Task and Reminder sections */
+    .task-section, .reminder-section {
+        background: white;
+        border-radius: 24px;
+        padding: 25px;
+        margin-bottom: 30px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .task-section h2, .reminder-section h2 {
+        color: #000000;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+    }
+
+    form input, form textarea, form select {
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 10px 15px;
+        font-family: inherit;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    form input:focus, form textarea:focus, form select:focus {
+        outline: none;
+        border-color: #f5c518;
+        box-shadow: 0 0 0 2px rgba(245, 197, 24, 0.2);
+    }
+
+    button {
+        background-color: #f5c518;
+        color: #000000;
+        font-weight: 600;
+        padding: 10px 24px;
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    button:hover {
+        background-color: #e6b800;
+        transform: translateY(-1px);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    th {
+        background-color: #fef9e6;
+        color: #000000;
+        font-weight: 600;
+    }
+
+    .completed-status {
+        color: #00a86b;
+        font-weight: 500;
+    }
+
+    .pending-status {
+        color: #f5c518;
+        font-weight: 500;
+    }
+
+    a {
+        color: #000000;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #f5c518;
+    }
+
+    .search-form {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .search-form input {
+        width: 250px;
+        margin: 0;
+    }
+
+    @media (max-width: 900px) {
+        .dashboard-wrapper {
+            flex-direction: column;
+        }
+        .dashboard-container {
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="main-container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Welcome to Your To-Do List</h1>
+        <p>Manage your tasks and reminders efficiently</p>
+    </div>
+
+    <!-- DASHBOARD - HORIZONTAL CARDS ON LEFT SIDE -->
+    <div class="dashboard-wrapper">
+        <div class="dashboard-container">
+            <div class="dashboard-card">
+                <h2>Total Tasks</h2>
+                <h1>{{ total_tasks }}</h1>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Completed Tasks</h2>
+                <h1>{{ completed_tasks }}</h1>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Pending Tasks</h2>
+                <h1>{{ pending_tasks }}</h1>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Total Reminders</h2>
+                <h1>{{ total_reminders }}</h1>
+            </div>
+        </div>
+
+</div>
+
+<!-- ================= TASK SECTION ================= -->
+
+<div class="task-section">
+
+    <h2>Today's Tasks</h2>
+
+    <!-- ADD TASK FORM -->
+    <form method="POST" action="{% url 'add_task' %}">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Task Title" required>
+        <br><br>
+        <textarea name="description" placeholder="Task Description" rows="3" required></textarea>
+        <br><br>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <br>
+
+    <a href="{% url 'view_tasks' %}">View All Tasks</a>
+
+    <!-- SEARCH FORM -->
+    <form method="GET" class="search-form">
+        <input type="text" name="search" placeholder="Search Tasks">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- TASK TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Reminder</th>
+                <th>Mark Completed</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>
+                    {% if task.status == 'Completed' %}
+                        <span class="completed-status">Completed</span>
+                    {% else %}
+                        <span class="pending-status">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'add_reminder' task.id %}">Add Reminder</a>
+                </td>
+                <td>
+                    <a href="{% url 'mark_completed' task.id %}">
+                        {% if task.status == 'Pending' %}
+                            Mark as Completed
+                        {% else %}
+                            Mark as Pending
+                        {% endif %}
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'edit_task' task.id %}">Edit</a> |
+                    <a href="{% url 'delete_task' task.id %}">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No Tasks Available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<!-- ================= REMINDER SECTION ================= -->
+
+<div class="reminder-section">
+
+    <h2>Upcoming Reminders</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Reminder Message</th>
+                <th>Reminder Time</th>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reminder in reminders %}
+            <tr>
+                <td>{{ reminder.message }}</td>
+                <td>{{ reminder.reminder_time }}</td>
+                <td>{{ reminder.task.title }}</td>
+                <td>
+                    {% if reminder.status == 'Completed' %}
+                        <span class="completed-status">Completed</span>
+                    {% else %}
+                        <span class="pending-status">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if reminder.status == 'Pending' %}
+                        <a href="{% url 'mark_reminder_completed' reminder.id %}">Mark as Completed</a>
+                    {% else %}
+                        Reminder Completed
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No Reminders Available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

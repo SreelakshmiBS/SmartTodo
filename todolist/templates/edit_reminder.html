@@ -4,6 +4,124 @@
 
 {% block content %}
 
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    .edit-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 40px 35px;
+        background: #ffffff;
+        border-radius: 32px;
+        border: 1px solid #f5c518;
+        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+    }
+
+    .edit-container h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #000000;
+        margin-bottom: 28px;
+        text-align: center;
+    }
+
+    form label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #000000;
+        margin-bottom: 6px;
+        display: inline-block;
+    }
+
+    form input,
+    form select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 0.95rem;
+        font-family: inherit;
+        background-color: #ffffff;
+        transition: all 0.2s ease;
+        outline: none;
+        color: #000000;
+    }
+
+    form input:focus,
+    form select:focus {
+        border-color: #f5c518;
+        box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.2);
+    }
+
+    button {
+        width: 100%;
+        background-color: #f5c518;
+        color: #000000;
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 10px;
+        font-family: inherit;
+        box-shadow: 0 2px 8px rgba(245, 197, 24, 0.2);
+    }
+
+    button:hover {
+        background-color: #e6b800;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 197, 24, 0.3);
+    }
+
+    /* back link */
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .back-link a {
+        color: #000000;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .back-link a:hover {
+        color: #f5c518;
+    }
+
+    hr {
+        margin: 20px 0;
+        border: none;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    @media (max-width: 650px) {
+        .edit-container {
+            margin: 20px;
+            padding: 28px 22px;
+        }
+        .edit-container h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
 <div class="edit-container">
 
     <h2>Edit Reminder</h2>
@@ -13,11 +131,8 @@
         {% csrf_token %}
 
         <!-- REMINDER MESSAGE -->
-
         <label>Reminder Message</label>
-
-        <br><br>
-
+        <br>
         <input
             type="text"
             name="message"
@@ -28,11 +143,8 @@
         <br><br>
 
         <!-- REMINDER TIME -->
-
         <label>Reminder Time</label>
-
-        <br><br>
-
+        <br>
         <input
             type="datetime-local"
             name="reminder_time"
@@ -43,11 +155,8 @@
         <br><br>
 
         <!-- STATUS -->
-
         <label>Status</label>
-
-        <br><br>
-
+        <br>
         <select name="status">
 
             <option value="Pending"
@@ -71,14 +180,15 @@
         <br><br>
 
         <!-- BUTTON -->
-
         <button type="submit">
-
             Update Reminder
-
         </button>
 
     </form>
+
+    <div class="back-link">
+        <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+    </div>
 
 </div>
 
